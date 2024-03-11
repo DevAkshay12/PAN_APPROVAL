@@ -1,0 +1,200 @@
+
+.sapMListTbl{
+border : solid 0.5px;
+}
+.sapUiTableExt{
+    display: none;
+}
+.sapMTableTH{
+    background-color: gainsboro;
+}
+/* plain theme */
+#panapproval\:\:PAN_Details_APRObjectPage--fe\:\:FormContainer\:\:ApprovalComments\:\:FormElement\:\:DataField\:\:Comments{
+    width: 300%;
+}
+/* .sapUiTableRow.sapUiTableHeaderRow.sapUiTableColHdrTr{
+background-color: #FAD6A5;
+} */
+/* .sapUiFormCLElement{
+    background-color: lavender;
+    margin-bottom: 1%;
+    border-radius: 10px;
+} */
+/* lavender theme */
+.sapUiFormCLElement{
+    background-color: aliceblue;
+    margin-bottom: 1%;
+    border-radius: 10px;
+}
+/* plain theme */
+#panapproval\:\:PAN_Details_APRObjectPage--fe\:\:FooterBar\:\:CustomAction\:\:clarification1-inner{
+    background-color: orange;
+    color: white;
+    filter: drop-shadow(2px 4px 6px black);
+}
+#panapproval\:\:PAN_Details_APRObjectPage--fe\:\:FooterBar\:\:CustomAction\:\:reject1-inner{
+    color: white;
+    background-color: orangered;
+    filter: drop-shadow(2px 4px 6px black);
+}
+#panapproval\:\:PAN_Details_APRObjectPage--fe\:\:FooterBar\:\:CustomAction\:\:approve1-inner{
+    color: white;
+    background-color: mediumseagreen;
+    filter: drop-shadow(2px 4px 6px black);
+}
+.sapUiMdcTable .sapMIBar.sapMTBHeader-CTX{
+    display: none;
+}
+#panapproval\:\:PAN_Details_APRObjectPage--fe\:\:CustomSubSection\:\:Attachment--uploadSet-toolbar{
+    display: none;
+}
+.sapMIllustratedMessage.sapMIllustratedMessage-Scene .sapMIllustratedMessageDescription,
+#panapproval\:\:PAN_Details_APRObjectPage--fe\:\:CustomSubSection\:\:Attachment--uploadSet-uploadButton,
+#panapproval\:\:PAN_Details_APRList--fe\:\:FilterBar\:\:PAN_Details_APR-btnAdapt-inner{
+    display: none;
+}
+#panapproval\:\:PAN_Details_APRObjectPage--fe\:\:CustomSubSection\:\:Attachment-innerGrid{
+    height: 270px !important;
+    overflow: scroll !important;
+}
+
+/* app theme */
+
+/* .sapMTitle {
+    color: white;
+    filter: drop-shadow(1px 5px 3px black);
+} */
+/* lavender theme */
+/* .sapUiSizeCompact .sapUxAPObjectPageLayoutHeaderPinnable .sapUxAPAnchorBar,
+.sapUxAPObjectPageLayout-Std-Desktop .sapUxAPAnchorBar.sapMTB ,
+.sapUxAPObjectPageNavigation,
+.sapUiSizeCompact .sapUxAPObjectPageLayout .sapUxAPObjectPageFooter .sapUxAPObjectPageFloatingFooter,
+.sapFDynamicPageTitle{
+    background:  #63458A;
+} */
+/* lavender theme */
+/* .sapUiSizeCompact .sapUxAPObjectPageLayoutHeaderPinnable .sapUxAPAnchorBar,
+.sapUxAPObjectPageLayout-Std-Desktop .sapUxAPAnchorBar.sapMTB ,
+.sapUxAPObjectPageNavigation,
+.sapUiSizeCompact .sapUxAPObjectPageLayout .sapUxAPObjectPageFooter .sapUxAPObjectPageFloatingFooter,
+.sapFDynamicPageTitle{
+    background: linear-gradient(to right, #2C3E50, #3498DB); 
+} */
+
+
+/* .sapFDynamicPageHeader.sapFDynamicPageHeaderWithContent,
+.sapFDynamicPage-Std-Desktop .sapFDynamicPageHeader.sapFDynamicPageHeaderWithContent {
+    background: #63458A;
+    border-end-start-radius: 20px;
+    border-end-end-radius: 20px;
+    filter: drop-shadow(2px 0.1px 15px black);
+} */
+/* lavender theme */
+/* .sapFDynamicPageHeader.sapFDynamicPageHeaderWithContent,
+.sapFDynamicPage-Std-Desktop .sapFDynamicPageHeader.sapFDynamicPageHeaderWithContent {
+    background: linear-gradient(to right, #2C3E50, #3498DB); 
+    border-end-start-radius: 20px;
+    border-end-end-radius: 20px;
+    filter: drop-shadow(2px 0.1px 15px black);
+} */
+
+
+/* .sapUiSizeCompact .sapMSF{
+    filter: drop-shadow(1px 11px 1px black);
+} */
+ /* lavender theme */
+/* .sapFDynamicPage.sapUiResponsiveContentPadding.sapFDynamicPage-Std-Desktop-XL .sapFDynamicPageContent,
+.sapUiSizeCompact .sapUxAPObjectPageSectionHeader, 
+#panapproval\:\:PAN_Details_APRObjectPage--fe\:\:ObjectPage-spacer,
+.sapFDynamicPage.sapUiResponsiveContentPadding.sapFDynamicPage-Std-Desktop .sapFDynamicPageContent{
+    background-color: lightslategray;
+} */
+/* lavender theme */
+/* .sapUiTableRow.sapUiTableHeaderRow.sapUiTableColHdrTr,
+.sapUiTableCHdr .sapUiTableColHdrCnt{
+    background: #C2BBF0;
+} */
+/* lavender theme */
+.sapUiTableRow.sapUiTableHeaderRow.sapUiTableColHdrTr,
+.sapUiTableCHdr .sapUiTableColHdrCnt{
+    background: gainsboro;
+}
+/* plain theme */
+/* .sapUiTableRow.sapUiTableHeaderRow.sapUiTableColHdrTr,
+.sapUiTableCHdr .sapUiTableColHdrCnt{
+    background: #7CB9E8 ;
+} */
+/* .sapUxAPObjectPageLayout-Std-Desktop .sapUxAPObjectPageSectionHeader,
+.sapUxAPObjectPageSubSection{
+    background-color: lightslategray;
+} */
+/* lavender theme */
+/* .sapUxAPObjectPageLayout-Std-Desktop .sapUxAPAnchorBar.sapMTB {
+    border-end-start-radius: 20px;
+    border-end-end-radius: 20px;
+} */
+/* lavender theme */
+/* .sapFDynamicPageTitleMain>.sapFDynamicPageTitleMainInner .sapFDynamicPageTitleMainHeading .sapFDynamicPageTitleMainHeadingInner .sapMTitle:not(.sapUICompVarMngmtTitle),
+.sapUiSizeCompact .sapUxAPAnchorBar .sapMBarChild.sapUxAPAnchorBarButton .sapMBtnInner .sapMBtnContent, .sapUxAPAnchorBar .sapMBarChild.sapUxAPAnchorBarButton .sapMBtnInner .sapMBtnContent{
+    color: white;
+    filter: drop-shadow(2px 4px 6px black);
+} */
+/* lavender theme */
+/* .sapMLabelTextWrapper,
+.sapMTitle.sapMTitleNoWrap{
+    color: black;
+} */
+/* lavender theme */
+.sapMLabel .sapMLabelTextWrapper {
+    font-weight: bolder;
+}
+/* .sapUiSizeCompact .sapUxAPObjectPageSectionTitle, .sapUxAPObjectPageSectionTitle{
+    color: white;
+    filter: drop-shadow(2px 4px 6px black);
+} */
+/* lavender theme */
+/* #__section7, */
+#__section1{
+    background-color: white;
+}
+.sapMEmptyIndicator{
+    visibility: hidden ;
+}
+#panapproval\:\:PAN_Details_APR_tab1tovendor_dataObjectPage--fe\:\:table\:\:vendtoptd\:\:LineItem\:\:PAYMENT_TERM_DETAILS-innerTable-rows-row0-col4 .sapUiTableCellInner,
+#panapproval\:\:PAN_Details_APR_tab1tovendor_dataObjectPage--fe\:\:table\:\:vendtoptd\:\:LineItem\:\:PAYMENT_TERM_DETAILS-innerTable-rows-row1-col4 .sapUiTableCellInner,
+#panapproval\:\:PAN_Details_APR_tab1tovendor_dataObjectPage--fe\:\:table\:\:vendtoptd\:\:LineItem\:\:PAYMENT_TERM_DETAILS-innerTable-rows-row2-col4 .sapUiTableCellInner,
+#panapproval\:\:PAN_Details_APR_tab1tovendor_dataObjectPage--fe\:\:table\:\:vendtoptd\:\:LineItem\:\:PAYMENT_TERM_DETAILS-innerTable-rows-row3-col4 .sapUiTableCellInner,
+#panapproval\:\:PAN_Details_APR_tab1tovendor_dataObjectPage--fe\:\:table\:\:vendtoptd\:\:LineItem\:\:PAYMENT_TERM_DETAILS-innerTable-rows-row0-col2 .sapUiTableCellInner,
+#panapproval\:\:PAN_Details_APR_tab1tovendor_dataObjectPage--fe\:\:table\:\:vendtoptd\:\:LineItem\:\:PAYMENT_TERM_DETAILS-innerTable-rows-row1-col2 .sapUiTableCellInner,
+#panapproval\:\:PAN_Details_APR_tab1tovendor_dataObjectPage--fe\:\:table\:\:vendtoptd\:\:LineItem\:\:PAYMENT_TERM_DETAILS-innerTable-rows-row2-col2 .sapUiTableCellInner,
+#panapproval\:\:PAN_Details_APR_tab1tovendor_dataObjectPage--fe\:\:table\:\:vendtoptd\:\:LineItem\:\:PAYMENT_TERM_DETAILS-innerTable-rows-row3-col2 .sapUiTableCellInner {
+    overflow: visible !important;
+    
+  position: relative;
+  
+  
+  }
+   /* panappbeta::tab1_tab1tovendor_dataObjectPage--fe::table::vendtoptd::LineItem::PAYMENT_TERM_DETAILS-innerTable_col4 */
+   #panapproval\:\:PAN_Details_APR_tab1tovendor_dataObjectPage--fe\:\:table\:\:vendtoptd\:\:LineItem\:\:PAYMENT_TERM_DETAILS-innerTable-rows-row0-col4 .sapUiTableCellInner:hover span,
+   #panapproval\:\:PAN_Details_APR_tab1tovendor_dataObjectPage--fe\:\:table\:\:vendtoptd\:\:LineItem\:\:PAYMENT_TERM_DETAILS-innerTable-rows-row1-col4 .sapUiTableCellInner:hover span,
+   #panapproval\:\:PAN_Details_APR_tab1tovendor_dataObjectPage--fe\:\:table\:\:vendtoptd\:\:LineItem\:\:PAYMENT_TERM_DETAILS-innerTable-rows-row2-col4 .sapUiTableCellInner:hover span,
+   #panapproval\:\:PAN_Details_APR_tab1tovendor_dataObjectPage--fe\:\:table\:\:vendtoptd\:\:LineItem\:\:PAYMENT_TERM_DETAILS-innerTable-rows-row3-col4 .sapUiTableCellInner:hover span,
+   #panapproval\:\:PAN_Details_APR_tab1tovendor_dataObjectPage--fe\:\:table\:\:vendtoptd\:\:LineItem\:\:PAYMENT_TERM_DETAILS-innerTable-rows-row0-col2 .sapUiTableCellInner:hover span,
+   #panapproval\:\:PAN_Details_APR_tab1tovendor_dataObjectPage--fe\:\:table\:\:vendtoptd\:\:LineItem\:\:PAYMENT_TERM_DETAILS-innerTable-rows-row1-col2 .sapUiTableCellInner:hover span,
+   #panapproval\:\:PAN_Details_APR_tab1tovendor_dataObjectPage--fe\:\:table\:\:vendtoptd\:\:LineItem\:\:PAYMENT_TERM_DETAILS-innerTable-rows-row2-col2 .sapUiTableCellInner:hover span,
+   #panapproval\:\:PAN_Details_APR_tab1tovendor_dataObjectPage--fe\:\:table\:\:vendtoptd\:\:LineItem\:\:PAYMENT_TERM_DETAILS-innerTable-rows-row3-col2 .sapUiTableCellInner:hover span {
+    
+    overflow-y: scroll !important;
+    /* overflow-x: hidden; */
+    /* padding: unset; */
+    padding: 10px;
+    text-wrap: wrap;
+    max-height: 150px; 
+    width: 100%;
+    position: absolute;
+    background-color: white;
+    z-index: 99999;
+    border: 2px solid gray;
+    border-radius: 5px;
+    
+  }

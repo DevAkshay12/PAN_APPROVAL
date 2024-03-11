@@ -1,0 +1,59 @@
+{
+    "name": "pan_approval_form",
+    "version": "1.0.0",
+    "description": "A simple CAP project.",
+    "repository": "<Add your repository here>",
+    "license": "UNLICENSED",
+    "private": true,
+    "dependencies": {
+        "@sap-cloud-sdk/http-client": "^3.11.0",
+        "@sap-cloud-sdk/resilience": "^3.11.0",
+        "@sap/cds": "^7",
+        "@sap/cds-hana": "^2",
+        "@sap/xsenv": "4.2.0",
+        "@sap/xssec": "3.6.1",
+        "ajax": "^0.0.4",
+        "express": "^4",
+        "jquery": "^3.7.1",
+        "jsdom": "^24.0.0",
+        "jwt-decode": "^4.0.0",
+        "passport": "0.7.0"
+    },
+    "devDependencies": {
+        "@cap-js/sqlite": "^1",
+        "@sap/cds-dk": "^7",
+        "@sap/ux-specification": "^1.120.3",
+        "rimraf": "^3.0.2"
+    },
+    "scripts": {
+        "start": "cds-serve",
+        "watch-approval": "cds watch --open approval/webapp/index.html?sap-ui-xx-viewCache=false",
+        "undeploy": "cf undeploy pan_approval_form --delete-services --delete-service-keys --delete-service-brokers",
+        "build": "rimraf resources mta_archives && mbt build --mtar archive",
+        "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
+        "watch-panapproval": "cds watch --open panapproval/webapp/index.html?sap-ui-xx-viewCache=false"
+    },
+    "sapux": [
+        "app/approval",
+        "app/panapproval"
+    ],
+    "cds": {
+        "requires": {
+            "auth": "dummy",
+            "db": "hana",
+            "destinations": true,
+            "ARIBA_DEV": {
+                "kind": "odata-v2",
+                "csrf": true,
+                "csrfInBatch": true,
+                "credentials": {
+                    "destination": "TEST_DEST"
+                },
+                "destinationOptions": {
+                    "selectionStrategy": "alwaysProvider",
+                    "jwt": null
+                }
+            }
+        }
+    }
+}

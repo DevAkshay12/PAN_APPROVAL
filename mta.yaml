@@ -1,0 +1,178 @@
+_schema-version: "3.1"
+ID: pan_approval_form
+description: A simple CAP project.
+version: 1.0.0
+modules:
+  - name: pan_approval_form-srv
+    type: nodejs
+    path: gen/srv
+    requires:
+      - name: uaa_pan_approval_form
+      - name: cross-container-service-2
+      - name: TLP_Connectivity
+      - name: pan_approval_form-destination
+      # - name: pan_approval_form-db
+    provides:
+      - name: srv-api
+        properties:
+          srv-url: ${default-url}
+    parameters:
+      buildpack: nodejs_buildpack
+    build-parameters:
+      builder: npm
+  - name: pan_approval_form-destination-content
+    type: com.sap.application.content
+    requires:
+      - name: pan_approval_form-destination-service
+        parameters:
+          content-target: true
+      - name: pan_approval_form_html_repo_host
+        parameters:
+          service-key:
+            name: pan_approval_form_html_repo_host-key
+      - name: uaa_pan_approval_form
+        parameters:
+          service-key:
+            name: uaa_pan_approval_form-key
+    parameters:
+      content:
+        instance:
+          destinations:
+            - Name: approval_form_pan_approval_form_html_repo_host
+              ServiceInstanceName: pan_approval_form-html5-app-host-service
+              ServiceKeyName: pan_approval_form_html_repo_host-key
+              sap.cloud.service: approval_form
+            - Authentication: OAuth2UserTokenExchange
+              Name: approval_form_uaa_pan_approval_form
+              ServiceInstanceName: pan_approval_form-xsuaa-service
+              ServiceKeyName: uaa_pan_approval_form-key
+              sap.cloud.service: approval_form
+          existing_destinations_policy: ignore
+    build-parameters:
+      no-source: true
+  - name: pan_approval_form-app-content
+    type: com.sap.application.content
+    path: .
+    requires:
+      - name: pan_approval_form_html_repo_host
+        parameters:
+          content-target: true
+    build-parameters:
+      build-result: resources
+      requires:
+        - artifacts:
+            - panapproval.zip
+          name: panapproval
+          target-path: resources/
+  - name: pan_approval_form-db-deployer
+    type: hdb
+    path: gen/db
+    requires:
+      - name: cross-container-service-2
+        group: SERVICE_REPLACEMENTS
+        properties:
+          key: ServiceName_1
+          service: ~{the-service-name}
+      # - name: pan_approval_form-db
+    parameters:
+      buildpack: nodejs_buildpack
+  - name: panapproval
+    type: html5
+    path: app/panapproval
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm install
+        - npm run build:cf
+      supported-platforms:
+        []
+    requires:
+      - name: srv-api
+        group: destinations
+        properties:
+          name: pan_approval_form-srv
+          URL: {srv-api/srv-url}
+          HTML5.ForwardAuthToken: true
+          timeout: 180000
+resources:
+  - name: pan_approval_form-destination-service
+    type: org.cloudfoundry.managed-service
+    parameters:
+      config:
+        HTML5Runtime_enabled: true
+        init_data:
+          instance:
+            destinations:
+              - Authentication: NoAuthentication
+                Name: ui5
+                ProxyType: Internet
+                Type: HTTP
+                URL: https://ui5.sap.com
+              - Authentication: NoAuthentication
+                HTML5.DynamicDestination: true
+                HTML5.ForwardAuthToken: true
+                Name: pan_approval_form-srv-api
+                ProxyType: Internet
+                Type: HTTP
+                URL: ~{srv-api/srv-url}
+            existing_destinations_policy: update
+        version: 1.0.0
+      service: destination
+      service-name: pan_approval_form-destination-service
+      service-plan: lite
+    requires:
+      - name: srv-api
+  - name: pan_approval_form_html_repo_host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-name: pan_approval_form-html5-app-host-service
+      service-plan: app-host
+  - name: uaa_pan_approval_form
+    type: org.cloudfoundry.managed-service
+    parameters:
+      path: ./xs-security.json
+      service: xsuaa
+      service-name: pan_approval_form-xsuaa-service
+      service-plan: application
+  - name: TLP_Connectivity
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: connectivity
+      service-plan: lite
+  - name: pan_approval_form-destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      config:
+        HTML5Runtime_enabled: false
+        init_data:
+          instance:
+            destinations:
+              - Authentication: NoAuthentication
+                Name: ui5
+                ProxyType: Internet
+                Type: HTTP
+                URL: https://ui5.sap.com
+            existing_destinations_policy: update
+      service: destination
+      service-plan: lite
+  - name: cross-container-service-2
+    type: org.cloudfoundry.existing-service
+    parameters:
+      service-name: main_db2-db
+    properties:
+      the-service-name: ${service-name}
+  - name: pan_approval_form-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npx cds build --production

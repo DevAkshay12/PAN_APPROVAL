@@ -1,0 +1,7 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:smartfilterbar="sap.ui.comp.smartfilterbar">
+      <!-- <smartfilterbar:ControlConfiguration id="_IDGenControlConfiguration1" key="seatsoc1" index="1" label="customfilter" groupId="_BASIC">
+      <smartfilterbar:customControl>
+      <MultiComboBox>
+      </smartfilterbar:customControl>
+      </smartfilterbar:ControlConfiguration> -->
+</core:FragmentDefinition>

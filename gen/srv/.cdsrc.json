@@ -1,0 +1,29 @@
+{
+  "odata": {
+    "flavor": "x4"
+  },
+  "requires": {
+    "iflow1": {
+      "kind": "rest",
+      "credentials": {
+        "url": "https://elipo_backend-shy-echidna-yp.cfapps.us20.hana.ondemand.com"
+      }
+    },
+    "getcall": {
+      "kind": "rest",
+      "csrf": true,
+      "csrfInBatch": true,
+      "credentials": {
+        "url": "https://tpl-cpi-a0qwl4l9.it-cpi021-rt.cfapps.in30.hana.ondemand.com",
+        "authentication": "BasicAuthentication",
+        "username": "sb-0b97c40d-3f35-4404-9105-b46caad5f19b!b5206|it-rt-tpl-cpi-a0qwl4l9!b148",
+        "password": "72ffaf31-45ac-47d4-b110-8a9f6295bd6f$5He2sa_sIzuf9H_hcPXuTLu-u1QmWkLktwS00qvrz48=",
+        "headers": {
+          "url": "https://openapi.ariba.com/api/sourcing-approval/v2/prod/action",
+          "query": "",
+          "basis": "Basic MWE4ZWQwOWQtYzdjYy00OWQyLWJhM2EtNzAyMTI0N2Q0YTYyOndvNnJmb2xxNEJmdjBlTGxCYW9jdDcxTkZ5dWFZcnZv"
+        }
+      }
+    }
+  }
+}
