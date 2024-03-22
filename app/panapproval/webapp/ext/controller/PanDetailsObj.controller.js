@@ -97,7 +97,7 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
 							
 						   });
 
-
+						   debugger
 						var baseUrl = this.base.getAppComponent().getManifestObject()._oBaseUri._string;
 						//117 and 102
 						await $.ajax({
@@ -148,7 +148,7 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
 								 "Begin_Date/_Time" : element.Begin_DateAND_Time,
 								 "End_Date/_Time" : element.End_DateAND_Time,
 								 Days_Taken : element.Days_Taken,
-								 Status : element.result,
+								 Status : element.Result,
 								 By_User : element.Approved_by,
 							 });
 						 });

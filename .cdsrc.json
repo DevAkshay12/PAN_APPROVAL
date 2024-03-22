@@ -3,6 +3,12 @@
     "flavor": "x4"
   },
   "requires": {
+    "iflow2": {
+      "kind": "rest",
+      "credentials": {
+        "url": "https://7c17a314trial-dev-main-db2-srv.cfapps.us10-001.hana.ondemand.com/odata/v4/pan-approval"
+      }
+    },
     "iflow1": {
       "kind": "rest",
       "credentials": {

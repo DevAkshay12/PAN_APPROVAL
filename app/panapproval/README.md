@@ -9,7 +9,7 @@
 |**Service Type**<br>Local Cap|
 |**Service URL**<br>http://localhost:4004/odata/v4/pan-approval/
 |**Module Name**<br>panapproval|
-|**Application Title**<br>PAN Approval|
+|**Application Title**<br>NFA Approval|
 |**Namespace**<br>|
 |**UI5 Theme**<br>sap_horizon|
 |**UI5 Version**<br>1.120.6|

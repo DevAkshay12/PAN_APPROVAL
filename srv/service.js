@@ -3,14 +3,15 @@ const { Readable } = require('stream')
 const { jwtDecode } = require('jwt-decode')
 const { ajax } = require('ajax');
 const { json } = require('stream/consumers');
+const axios = require('axios');
 module.exports = cds.service.impl(async function () {
     let {
         attachments, tab1, tab2, tab3, vendor_data, Fvendor_responseoo, PAYMENT_TERM_DETAILS, WORKFLOW_HISTORY, WORKFLOW_HISTORY_EMP, PAN_PRICE_DETAILS, PAN_Payment_Method_Drop, PAN_Comments,
-        PAN_Details_APR, PAN_WEB_EVENT_APR, PAN_TYPE_APR, PAN_vendor_data_APR, PAN_vendor_response_APR, PAN_PAYMENT_TERM_DETAILS_APR, PAN_PRICE_DETAILS_APR, PAN_WORKFLOW_HISTORY_APR, PAN_attachments_APR, PAN_Payment_Method_Drop_APR, PAN_Comments_APR
+        approversKeys,PAN_Details_APR, PAN_WEB_EVENT_APR, PAN_TYPE_APR, PAN_vendor_data_APR, PAN_vendor_response_APR, PAN_PAYMENT_TERM_DETAILS_APR, PAN_PRICE_DETAILS_APR, PAN_WORKFLOW_HISTORY_APR, PAN_attachments_APR, PAN_Payment_Method_Drop_APR, PAN_Comments_APR
     } = this.entities;
     const AribaSrv = await cds.connect.to('ARIBA_DEV');
     const ariba = await cds.connect.to('getcall');
-
+const c2re = await cds.connect.to('iflow2');
     this.on("cbe", async (req) => {
         let data = await SELECT.from(PAN_Details_APR).where`PAN_Number = ${req.data.ID}`;
         console.log(data);
@@ -29,14 +30,14 @@ module.exports = cds.service.impl(async function () {
             let token = auth.split(" ");
             var decoded = jwtDecode(token[1]);
         }
-        let wiid = await SELECT.from(PAN_Details_APR).where`PAN_Number = ${req.data.ID}`;
-        console.log("beforevalidate");
+        // let wiid = await SELECT.from(PAN_Details_APR).where`PAN_Number = ${req.data.ID}`;
+        // console.log("beforevalidate");
 
         // let dummyRes = await AribaSrv.get(`/sap/opu/odata/sap/ZARB_BTP_ATTACHMENT_SRV/wiidByUserSet?$filter=( user eq  '${decoded["user_name"]}'  and wiid eq '${wiid[0].Sap_workitem_id}' )`);
-        let dummyRes = await AribaSrv.get(`/opu/odata/sap/ZARB_BTP_ATTACHMENT_SRV/wiidByUserSet?$filter=( user eq  '${decoded["user_name"]}'  and wiid eq '${wiid[0].Sap_workitem_id}' )`);//testing
-        //    let dummyRes = [{status : "User Found",user : "one"}];
-        console.log("validate");
-        console.log(dummyRes[0]);
+        // let dummyRes = await AribaSrv.get(`/opu/odata/sap/ZARB_BTP_ATTACHMENT_SRV/wiidByUserSet?$filter=( user eq  '${decoded["user_name"]}'  and wiid eq '${wiid[0].Sap_workitem_id}' )`);//testing
+           let dummyRes = [{status : "User Found",user : "one"}];
+        // console.log("validate");
+        // console.log(dummyRes[0]);
         return JSON.stringify(dummyRes[0]);
 
     });
@@ -49,21 +50,51 @@ module.exports = cds.service.impl(async function () {
         }
         // var decoded ="dhanushg-v@tataprojects.com"  
         // let url = `/sap/opu/odata/sap/ZARB_BTP_ATTACHMENT_SRV/wiidByUserSet?$filter=( user eq  '${decoded["user_name"]}' )`;
-        let url = `/opu/odata/sap/ZARB_BTP_ATTACHMENT_SRV/wiidByUserSet?$filter=( user eq  '${decoded["user_name"]}' )`;//for testing
+        // let url = `/opu/odata/sap/ZARB_BTP_ATTACHMENT_SRV/wiidByUserSet?$filter=( user eq  '${decoded["user_name"]}' )`;//for testing
         // console.log(url);
-        let dummyRes = await AribaSrv.get(url);
-        console.log("dummyRes");
-        console.log(dummyRes);
-        console.log("dummyRes");
+        // let dummyRes = await AribaSrv.get(url);
+        // console.log("dummyRes");
+        // console.log(dummyRes);
+        // console.log("dummyRes");
         // let dummyRes = [
         //     {user:"one",workitemId:"1"},{user:"two",workitemId:"2"}
         // ];  
-        let ret = [];
-        let array = [];
 
+        let dummyRes=await SELECT.from(approversKeys).where`approver = ${decoded["user_name"]}`
+        
+        let ret = [];
+        if(!dummyRes)
+        return JSON.stringify(ret);
+        let array = [];
+        debugger            
+        var client = 'sb-ac54d491-187a-45aa-b8e2-715ae15aba02!b251713|xsuaa!b49390';
+        var secret = '54783039-b81b-47a7-8fdc-a0629fd631ee$7G4GmitVLGCydW0QbawQX7Ba46lmQLZ_6lzRdnKxnG8=';
+        var auth1 = Buffer.from(client+':'+secret,'utf-8').toString('base64');
+        var response1 = await axios.request('https://7c17a314trial.authentication.us10.hana.ondemand.com/oauth/token?grant_type=client_credentials',
+        {
+            method:'POST',
+            headers:{
+                'Authorization':'Basic '+auth1
+            }
+        });
+        console.log(response1);
         for (let i = 0; i < dummyRes.length; i++) {
             // array.push(res.workitemId);
-            var data = await SELECT`PAN_Number`.from(PAN_Details_APR).where`Sap_workitem_id = ${dummyRes[i].workitemId}`;
+
+            try {
+               
+                debugger
+                var response11= await axios.get(`https://spa-api-gateway-bpi-us-prod.cfapps.us10.hana.ondemand.com/workflow/rest/v1/workflow-instances/${dummyRes[i].keyy}`,
+                {
+                   headers:{
+                        'Authorization':'Bearer '+response1.data.access_token,
+                    }
+                });
+               
+                        } catch (error) {
+                            debugger
+                        }
+            var data = await SELECT`PAN_Number`.from(PAN_Details_APR).where`Sap_workitem_id = ${response11.data.parentInstanceId}`;
             // console.log();
 
             for (let j = 0; j < data.length; j++) {
@@ -276,6 +307,7 @@ module.exports = cds.service.impl(async function () {
             let token = auth.split(" ");
             var decoded = jwtDecode(token[1]);
         }
+
         const jsonr = JSON.parse(req.data.ID);
         const urll = jsonr.urll;
         const buttonClicked = jsonr.status;
@@ -303,7 +335,13 @@ module.exports = cds.service.impl(async function () {
         //     });
         // })
 
-
+////dhanush mah test
+let wherecon = `PAN_Number = '${req.data.ID}' and Remarks='pending'`;
+        console.log(wherecon); 
+        var aplev = await SELECT.from(PAN_WORKFLOW_HISTORY_APR).where(wherecon);
+        if(!aplev)
+        aplev = [{level : '0'}];
+////dhanush mah test
 
 
 
@@ -318,13 +356,14 @@ module.exports = cds.service.impl(async function () {
         }
         let data_m = await SELECT.from(PAN_Details_APR).where`PAN_Number=${req.data.ID}`;
         data_m = data_m[0];
-        if(!data_m.Comments)    
-          return JSON.stringify(Mandtret); 
+        if(!data_m.Comments)   
+         return JSON.stringify(Mandtret); 
 
+        
+         data_m.Current_level_of_approval = aplev[0].level;
          let i1  = parseInt(data_m.Current_level_of_approval);
-         i1++;
-         data_m.Current_level_of_approval = i1.toString();
-         
+         i1++; 
+         let nextlevel = i1.toString();
         const options = { timeZone: 'Asia/Kolkata', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false };
         const currentDate = new Date().toLocaleString('en-IN', options);
         let [datePart, timePart] = currentDate.split(', ');
@@ -334,6 +373,13 @@ module.exports = cds.service.impl(async function () {
         let wherecond = `PAN_Number = '${req.data.ID}' and level='${data_m.Current_level_of_approval}'`;
         console.log(wherecond); 
         const startDate = await SELECT.from(PAN_WORKFLOW_HISTORY_APR).where(wherecond);
+/////////////
+if(aplev[0].level != '0'){
+let wherecond2= `PAN_Number = '${req.data.ID}' and level='${nextlevel}'`;
+        console.log(wherecond2); 
+        var startDate2 = await SELECT.from(PAN_WORKFLOW_HISTORY_APR).where(wherecond2);
+}
+/////////
         console.log(startDate);
         var b = startDate[0];
         // console.log(b['Begin_DateAND_Time']);
@@ -352,16 +398,53 @@ module.exports = cds.service.impl(async function () {
         // Convert milliseconds to minutes
         const differenceDays = Math.abs(Math.floor(differenceMs / (1000 * 60 * 60 * 24)));
         console.log("update dates");
-        if (buttonClicked != 'Justification Needed')
+        if (buttonClicked != 'Justification Needed'){
             startDate.forEach(async data => {
-                let res = await UPDATE(PAN_WORKFLOW_HISTORY_APR, { PAN_Number: req.data.ID, idd: data.idd, level: data_m.Current_level_of_approval }).with({
+                // let res = await UPDATE(PAN_WORKFLOW_HISTORY_APR, { PAN_Number: req.data.ID, idd: data.idd, level: data_m.Current_level_of_approval }).with({
+                //     "Result": buttonClicked,
+                //     "End_DateAND_Time": currentDate,
+                //     "Remarks" :null,
+                //     "Days_Taken": differenceDays.toString(),
+                //     // "Approved_by": decoded["user_name"] ccccccccccccccccccccccccc
+                // });
+                let dataaa = {
                     "Result": buttonClicked,
                     "End_DateAND_Time": currentDate,
+                    "Remarks" :null,
                     "Days_Taken": differenceDays.toString(),
-                    "Approved_by": decoded["user_name"]
-                });
+                    "Approved_by": decoded["user_name"] 
+                };
+               let res = await c2re.patch(`/PAN_WORKFLOW_HISTORY_APR(PAN_Number='${req.data.ID}',idd='${data.idd}')`,dataaa);
+
                 console.log(res);
             });
+            if(buttonClicked == 'Approved' )
+            for (let index = 0; index < startDate2.length; index++) {
+                try {
+                    let res = await c2re.patch(`/PAN_WORKFLOW_HISTORY_APR(PAN_Number='${req.data.ID}',idd='${startDate2[index].idd}')`,{ "Remarks" :'pending'});
+
+                    // let res = await UPDATE(PAN_WORKFLOW_HISTORY_APR, { PAN_Number: req.data.ID, idd: startDate2[index].idd, level: startDate2[index].level }).with({
+                    //     "Remarks" :'pending',
+                    // });
+        // let t = await SELECT.from(PAN_WORKFLOW_HISTORY_APR).where`PAN_Number = ${req.data.ID}`;
+        //             console.log(res);            
+                } catch (error) {
+                    debugger
+                }
+                
+            }
+        //     startDate2.forEach(async data => {
+        // try {
+        //     let res = await UPDATE(PAN_WORKFLOW_HISTORY_APR, { PAN_Number: req.data.ID, idd: data.idd, level: data.level }).with({
+        //         "Remarks" :'pending',
+        //     });
+
+        //     console.log(res);            
+        // } catch (error) {
+        //     debugger
+        // }
+        //     });
+        }
 ////////comments updated
 
 let comm = await SELECT.from(PAN_Details_APR).where`PAN_Number = ${req.data.ID}`
@@ -412,14 +495,73 @@ if (comm[0].Comments) {
         // let dummyRes = [];
         // let dummyRes = await AribaSrv.post('/sap/opu/odata/sap/ZARB_BTP_GENERATEFORM_SRV/formSet',body);
         try {
-            var dummyRes = await AribaSrv.post('/opu/odata/sap/ZARB_BTP_GENERATEFORM_SRV/formSet', body);//testing    
+
+debugger
+try {
+    debugger            
+    var client = 'sb-ac54d491-187a-45aa-b8e2-715ae15aba02!b251713|xsuaa!b49390';
+    var secret = '54783039-b81b-47a7-8fdc-a0629fd631ee$7G4GmitVLGCydW0QbawQX7Ba46lmQLZ_6lzRdnKxnG8=';
+    var auth1 = Buffer.from(client+':'+secret,'utf-8').toString('base64');
+    var response1 = await axios.request('https://7c17a314trial.authentication.us10.hana.ondemand.com/oauth/token?grant_type=client_credentials',
+    {
+        method:'POST',
+        headers:{
+            'Authorization':'Basic '+auth1
+        }
+    });
+    console.log(response1);
+    var bodyy = JSON.parse(JSON.stringify({
+        "status": "CANCELED",
+        "cascade": true
+     }));
+    debugger
+    let subkey = await SELECT.from(approversKeys).where`PAN_Number = ${req.data.ID}and approver= ${decoded["user_name"]}`
+    let subkey1 = await DELETE.from(approversKeys).where`PAN_Number = ${req.data.ID}`
+    var response11= await axios.patch(`https://spa-api-gateway-bpi-us-prod.cfapps.us10.hana.ondemand.com/workflow/rest/v1/workflow-instances/${subkey[0].keyy}`,bodyy,
+    {
+       headers:{
+            'Authorization':'Bearer '+response1.data.access_token,
+        }
+    });
+    debugger
+    await new Promise(resolve => setTimeout(resolve, 3000));
+    var response12= await axios.get(`https://spa-api-gateway-bpi-us-prod.cfapps.us10.hana.ondemand.com/workflow/rest/v1/workflow-instances?$filter=parentInstanceId eq '${data_m.Sap_workitem_id}'`,
+    {
+       headers:{
+            'Authorization':'Bearer '+response1.data.access_token,
+        }
+    });
+    
+    var subprocessid = response12.data.filter(item=> item.parentInstanceId == data_m.Sap_workitem_id && item.status == 'RUNNING')
+    // let filterdresp = instancearr
+    console.log(response12);
+    console.log(subprocessid);
+    
+    for(let i=0;i<startDate2.length;i++){
+        let b = {approver :startDate2[i].Employee_ID ,keyy :subprocessid[0].id ,PAN_Number:req.data.ID}
+        console.log("before app keys" + subprocessid[0].id)
+        await c2re.post("/approversKeys",b);     
+        console.log(b)   
+    }
+    
+    debugger
+            } catch (error) {
+                debugger
+            }
+
+
+
+
+
+
+            // var dummyRes = await AribaSrv.post('/opu/odata/sap/ZARB_BTP_GENERATEFORM_SRV/', body);//testing    
         } catch (error) {
             let m = { status: "er" };
             return JSON.stringify(m);
         }
 
 
-        console.log(dummyRes);
+        // console.log(dummyRes);
         // https://vhtpds4dci.sap.tataprojects.com:20400/sap/sap/opu/odata/sap/ZARB_BTP_GENERATEFORM_SRV/formSet
         // console.log("resssssssssssssssssssssssssssssssssssssssssssssssssssss");
         // let srv = await UPDATE(tab1,data.PAN_Number).with({"status":"Pending for Approval"});
@@ -440,50 +582,50 @@ if (comm[0].Comments) {
         //         rein.Result = buttonClicked;
         //     });
         //    var task_id = "";
-        if (dummyRes.currentLevel == '0') {
+        // if (dummyRes.currentLevel == '0') {
 
 
-            let task_id = await SELECT`task_id`.from(PAN_Details_APR).where`PAN_Number = ${req.data.ID}`;
-            let actionName = "";
-            switch (buttonClicked) {
-                case 'Approved':
-                    actionName = "Approve";
-                    break;
-                case 'Rejected':
-                    actionName = "Deny";
-                    break;
-                case 'Justification Needed':
+        //     let task_id = await SELECT`task_id`.from(PAN_Details_APR).where`PAN_Number = ${req.data.ID}`;
+        //     let actionName = "";
+        //     switch (buttonClicked) {
+        //         case 'Approved':
+        //             actionName = "Approve";
+        //             break;
+        //         case 'Rejected':
+        //             actionName = "Deny";
+        //             break;
+        //         case 'Justification Needed':
 
-                    break;
-                default:
-                    break;
-            }
+        //             break;
+        //         default:
+        //             break;
+        //     }
 
-            let body = {
-                "actionableType": "Task",
-                "uniqueName": task_id[0].task_id,
-                // "uniqueName": 'task1233',
-                "actionName": actionName,
-                "options": {
-                    "comments": "test Comment"
-                }
-            };
-            console.log(body);
-            console.log(task_id[0].task_id);
-            // ariba.destination.headers.body = JSON.stringify();
-            //   ariba.destination.headers.query = "realm=tataprojects-T&user=" + decoded["user_name"] + "&passwordadapter=ThirdPartyUser&apikey=nQcLVavnQ7f2YklQoRtNeVgYFGyyqN4v" 
-            ariba.destination.headers.query = "realm=tataprojects-T&user=" + "PANCreator" + "&passwordadapter=ThirdPartyUser&apikey=nQcLVavnQ7f2YklQoRtNeVgYFGyyqN4v";
-            if (task_id[0].task_id) {
-                try {
-                    // console.log("avaneesh post");
-                    let res = await ariba.post("/http/postcallscript",body);
-                } catch (err) {
-                    console.log(err);
-                }
-            }
+        //     let body = {
+        //         "actionableType": "Task",
+        //         "uniqueName": task_id[0].task_id,
+        //         // "uniqueName": 'task1233',
+        //         "actionName": actionName,
+        //         "options": {
+        //             "comments": "test Comment"
+        //         }
+        //     };
+        //     console.log(body);
+        //     console.log(task_id[0].task_id);
+        //     // ariba.destination.headers.body = JSON.stringify();
+        //     //   ariba.destination.headers.query = "realm=tataprojects-T&user=" + decoded["user_name"] + "&passwordadapter=ThirdPartyUser&apikey=nQcLVavnQ7f2YklQoRtNeVgYFGyyqN4v" 
+        //     ariba.destination.headers.query = "realm=tataprojects-T&user=" + "PANCreator" + "&passwordadapter=ThirdPartyUser&apikey=nQcLVavnQ7f2YklQoRtNeVgYFGyyqN4v";
+        //     if (task_id[0].task_id) {
+        //         try {
+        //             // console.log("avaneesh post");
+        //             let res = await ariba.post("/http/postcallscript",body);
+        //         } catch (err) {
+        //             console.log(err);
+        //         }
+        //     }
 
 
-        }
+        // }
         //     else{
         //         const options = { timeZone: 'Asia/Kolkata', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false };
         //         const currentDate = new Date().toLocaleString('en-IN', options);
@@ -520,9 +662,9 @@ if (comm[0].Comments) {
         let ret = {
             user: decoded["user_name"],
             // user :"user_name",
-            status: dummyRes.status,
-            currentLevel: dummyRes.currentLevel,
-            workitemId: dummyRes.workitemId
+            status: buttonClicked,
+            // currentLevel: dummyRes.currentLevel,
+            // workitemId: dummyRes.workitemId
         }
 
         //      let respbody ={
@@ -550,12 +692,12 @@ if(buttonClicked == "Justification Needed"){
     })
 }
 else{
-    if (data_m.Current_level_of_approval == data_m.total_levels_of_approval )
+    if (subprocessid.length == 0 || buttonClicked == 'Rejected')
     status = buttonClicked;
 await UPDATE(PAN_Details_APR, req.data.ID).with({
         "status": status,
-        "Current_level_of_approval": ret.currentLevel,
-        "Sap_workitem_id": ret.workitemId,
+        "Current_level_of_approval": null,
+        // "Sap_workitem_id": ret.workitemId,
         "Comments": null
     })
 }

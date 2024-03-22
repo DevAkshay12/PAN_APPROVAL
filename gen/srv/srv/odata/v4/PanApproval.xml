@@ -28,6 +28,7 @@
         </EntitySet>
         <EntitySet Name="PAN_Payment_Method_Drop_APR" EntityType="PanApproval.PAN_Payment_Method_Drop_APR"/>
         <EntitySet Name="vendorTaxDetails_APR" EntityType="PanApproval.vendorTaxDetails_APR"/>
+        <EntitySet Name="approversKeys" EntityType="PanApproval.approversKeys"/>
         <FunctionImport Name="sendforapproval" Function="PanApproval.sendforapproval"/>
         <FunctionImport Name="InsertData" Function="PanApproval.InsertData"/>
         <FunctionImport Name="finalApprove" Function="PanApproval.finalApprove"/>
@@ -350,6 +351,16 @@
         <Property Name="name" Type="Edm.String"/>
         <Property Name="value" Type="Edm.String"/>
       </EntityType>
+      <EntityType Name="approversKeys">
+        <Key>
+          <PropertyRef Name="PAN_Number"/>
+          <PropertyRef Name="approver"/>
+          <PropertyRef Name="keyy"/>
+        </Key>
+        <Property Name="PAN_Number" Type="Edm.String" Nullable="false"/>
+        <Property Name="approver" Type="Edm.String" Nullable="false"/>
+        <Property Name="keyy" Type="Edm.String" Nullable="false"/>
+      </EntityType>
       <Function Name="sendforapproval" IsBound="false" IsComposable="false">
         <Parameter Name="data" Type="Edm.String"/>
         <ReturnType Type="Edm.String"/>
@@ -400,15 +411,7 @@
           <Collection>
             <Record Type="UI.DataField">
               <PropertyValue Property="Value" Path="PAN_Number"/>
-              <PropertyValue Property="Label" String="PAN Number"/>
-            </Record>
-            <Record Type="UI.DataField">
-              <PropertyValue Property="Value" Path="SBG"/>
-              <PropertyValue Property="Label" String="SBG"/>
-            </Record>
-            <Record Type="UI.DataField">
-              <PropertyValue Property="Value" Path="SBU"/>
-              <PropertyValue Property="Label" String="SBU"/>
+              <PropertyValue Property="Label" String="NFA Number"/>
             </Record>
             <Record Type="UI.DataField">
               <PropertyValue Property="Value" Path="BUORPurchasing_Group"/>
@@ -475,8 +478,8 @@
         </Annotation>
         <Annotation Term="UI.HeaderInfo">
           <Record Type="UI.HeaderInfoType">
-            <PropertyValue Property="TypeName" String="PAN Details"/>
-            <PropertyValue Property="TypeNamePlural" String="PAN Details"/>
+            <PropertyValue Property="TypeName" String="NFA Details"/>
+            <PropertyValue Property="TypeNamePlural" String="NFA Details"/>
             <PropertyValue Property="Title">
               <Record Type="UI.DataField">
                 <PropertyValue Property="Value" Path="PAN_Number"/>
@@ -497,20 +500,15 @@
                     <PropertyValue Property="Label" String=" "/>
                   </Record>
                   <Record Type="UI.ReferenceFacet">
-                    <PropertyValue Property="Label" String="WEB EVENT"/>
+                    <PropertyValue Property="Label" String="EVENT HISTORY"/>
                     <PropertyValue Property="ID" String="_"/>
                     <PropertyValue Property="Target" AnnotationPath="tab1totab2/@UI.LineItem#_"/>
-                  </Record>
-                  <Record Type="UI.ReferenceFacet">
-                    <PropertyValue Property="Label" String="PAN TYPE"/>
-                    <PropertyValue Property="ID" String="PANTYPE"/>
-                    <PropertyValue Property="Target" AnnotationPath="tab1totab3/@UI.LineItem#PANTYPE"/>
                   </Record>
                 </Collection>
               </PropertyValue>
             </Record>
             <Record Type="UI.ReferenceFacet">
-              <PropertyValue Property="Label" String="Vendor Details"/>
+              <PropertyValue Property="Label" String="Vendor Response Details"/>
               <PropertyValue Property="ID" String="VendorData"/>
               <PropertyValue Property="Target" AnnotationPath="tab1tovendor_data/@UI.LineItem#VendorData"/>
             </Record>
@@ -527,15 +525,7 @@
               <Collection>
                 <Record Type="UI.DataField">
                   <PropertyValue Property="Value" Path="PAN_Number"/>
-                  <PropertyValue Property="Label" String="PAN Number"/>
-                </Record>
-                <Record Type="UI.DataField">
-                  <PropertyValue Property="Value" Path="SBG"/>
-                  <PropertyValue Property="Label" String="SBG"/>
-                </Record>
-                <Record Type="UI.DataField">
-                  <PropertyValue Property="Value" Path="SBU"/>
-                  <PropertyValue Property="Label" String="SBU"/>
+                  <PropertyValue Property="Label" String="NFA Number"/>
                 </Record>
                 <Record Type="UI.DataField">
                   <PropertyValue Property="Value" Path="BUORPurchasing_Group"/>
@@ -556,10 +546,6 @@
                 <Record Type="UI.DataField">
                   <PropertyValue Property="Value" Path="Subject_of_ProposalOROrder"/>
                   <PropertyValue Property="Label" String="Subject of Proposal/Order"/>
-                </Record>
-                <Record Type="UI.DataField">
-                  <PropertyValue Property="Value" Path="Previous_PAN_References"/>
-                  <PropertyValue Property="Label" String="Previous PAN References"/>
                 </Record>
                 <Record Type="UI.DataField">
                   <PropertyValue Property="Value" Path="Split_OrderORNo_of_vendors"/>
@@ -596,14 +582,6 @@
                 <Record Type="UI.DataField">
                   <PropertyValue Property="Value" Path="Number_of_Vendors_Shortlisted_for_RFP"/>
                   <PropertyValue Property="Label" String="Number of Vendors Shortlisted for RFP"/>
-                </Record>
-                <Record Type="UI.DataField">
-                  <PropertyValue Property="Value" Path="Number_of_Vendors_Technically_Qualified"/>
-                  <PropertyValue Property="Label" String="Number of Vendors Technically Qualified"/>
-                </Record>
-                <Record Type="UI.DataField">
-                  <PropertyValue Property="Value" Path="Required_at_Site_Date"/>
-                  <PropertyValue Property="Label" String="Required at Site Date"/>
                 </Record>
                 <Record Type="UI.DataField">
                   <PropertyValue Property="Value" Path="RFP_Number"/>
@@ -660,6 +638,18 @@
                             <PropertyValue Property="Sign" EnumMember="UI.SelectionRangeSignType/I"/>
                             <PropertyValue Property="Option" EnumMember="UI.SelectionRangeOptionType/EQ"/>
                             <PropertyValue Property="Low" String=""/>
+                          </Record>
+                        </Collection>
+                      </PropertyValue>
+                    </Record>
+                    <Record Type="UI.SelectOptionType">
+                      <PropertyValue Property="PropertyName" PropertyPath="status"/>
+                      <PropertyValue Property="Ranges">
+                        <Collection>
+                          <Record Type="UI.SelectionRangeType">
+                            <PropertyValue Property="Sign" EnumMember="UI.SelectionRangeSignType/I"/>
+                            <PropertyValue Property="Option" EnumMember="UI.SelectionRangeOptionType/EQ"/>
+                            <PropertyValue Property="Low" String="Pending for Approval"/>
                           </Record>
                         </Collection>
                       </PropertyValue>
@@ -742,6 +732,18 @@
                             <PropertyValue Property="Sign" EnumMember="UI.SelectionRangeSignType/I"/>
                             <PropertyValue Property="Option" EnumMember="UI.SelectionRangeOptionType/EQ"/>
                             <PropertyValue Property="Low" String=""/>
+                          </Record>
+                        </Collection>
+                      </PropertyValue>
+                    </Record>
+                    <Record Type="UI.SelectOptionType">
+                      <PropertyValue Property="PropertyName" PropertyPath="status"/>
+                      <PropertyValue Property="Ranges">
+                        <Collection>
+                          <Record Type="UI.SelectionRangeType">
+                            <PropertyValue Property="Sign" EnumMember="UI.SelectionRangeSignType/I"/>
+                            <PropertyValue Property="Option" EnumMember="UI.SelectionRangeOptionType/EQ"/>
+                            <PropertyValue Property="Low" String="Pending for Approval"/>
                           </Record>
                         </Collection>
                       </PropertyValue>
@@ -949,10 +951,6 @@
               <PropertyValue Property="Value" Path="Rank"/>
               <PropertyValue Property="Label" String="Rank"/>
             </Record>
-            <Record Type="UI.DataField">
-              <PropertyValue Property="Value" Path="Technically_Approved"/>
-              <PropertyValue Property="Label" String="Technically Approved"/>
-            </Record>
           </Collection>
         </Annotation>
         <Annotation Term="UI.Facets">
@@ -963,22 +961,17 @@
               <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#VendorResponse"/>
             </Record>
             <Record Type="UI.ReferenceFacet">
-              <PropertyValue Property="Label" String="Terms and Conditions Compared with"/>
-              <PropertyValue Property="ID" String="TermsandConditionsComparedwith"/>
-              <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#TermsandConditionsComparedwith"/>
-            </Record>
-            <Record Type="UI.ReferenceFacet">
               <PropertyValue Property="Label" String="Payment Term Details"/>
               <PropertyValue Property="ID" String="PAYMENT_TERM_DETAILS"/>
               <PropertyValue Property="Target" AnnotationPath="vendtoptd/@UI.LineItem#PAYMENT_TERM_DETAILS"/>
             </Record>
             <Record Type="UI.ReferenceFacet">
-              <PropertyValue Property="Label" String="Others Terms And Conditions"/>
+              <PropertyValue Property="Label" String="Terms And Conditions"/>
               <PropertyValue Property="ID" String="OTHERSTERMSANDCONDITIONS"/>
               <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#OTHERSTERMSANDCONDITIONS"/>
             </Record>
             <Record Type="UI.ReferenceFacet">
-              <PropertyValue Property="Label" String="Price Details"/>
+              <PropertyValue Property="Label" String="Item Details"/>
               <PropertyValue Property="ID" String="PRICEDETAILS"/>
               <PropertyValue Property="Target" AnnotationPath="vendtopd/@UI.LineItem#PRICEDETAILS"/>
             </Record>
@@ -1005,22 +998,6 @@
                   <PropertyValue Property="Label" String="Vendor GST Number"/>
                 </Record>
                 <Record Type="UI.DataField">
-                  <PropertyValue Property="Value" Path="Vendor_CE_Score"/>
-                  <PropertyValue Property="Label" String="Vendor CE Score"/>
-                </Record>
-                <Record Type="UI.DataField">
-                  <PropertyValue Property="Value" Path="Vendor_CE_Date"/>
-                  <PropertyValue Property="Label" String="Vendor CE Date"/>
-                </Record>
-                <Record Type="UI.DataField">
-                  <PropertyValue Property="Value" Path="Vendor_PE_Score"/>
-                  <PropertyValue Property="Label" String="Vendor PE Score"/>
-                </Record>
-                <Record Type="UI.DataField">
-                  <PropertyValue Property="Value" Path="Vendor_PE_Date"/>
-                  <PropertyValue Property="Label" String="Vendor PE Date"/>
-                </Record>
-                <Record Type="UI.DataField">
                   <PropertyValue Property="Value" Path="Vendor_Contact_PersonDASH1"/>
                   <PropertyValue Property="Label" String="Vendor Contact Person 1"/>
                 </Record>
@@ -1035,10 +1012,6 @@
                 <Record Type="UI.DataField">
                   <PropertyValue Property="Value" Path="Commercial_Committee_who_cleared_the_proposal"/>
                   <PropertyValue Property="Label" String="Commercial Committee who cleared the proposal"/>
-                </Record>
-                <Record Type="UI.DataField">
-                  <PropertyValue Property="Value" Path="Vendor_References_to_be_displayed_in_Order"/>
-                  <PropertyValue Property="Label" String="Vendor References to be displayed in Order"/>
                 </Record>
                 <Record Type="UI.DataField">
                   <PropertyValue Property="Value" Path="Incoterms"/>
@@ -1381,11 +1354,7 @@
             </Record>
             <Record Type="UI.DataField">
               <PropertyValue Property="Value" Path="Indian_Tax_PER"/>
-              <PropertyValue Property="Label" String="Indian Tax %"/>
-            </Record>
-            <Record Type="UI.DataField">
-              <PropertyValue Property="Value" Path="Quantity_Over_Delivery_Tolerance"/>
-              <PropertyValue Property="Label" String="Quantity Over Delivery Tolerance"/>
+              <PropertyValue Property="Label" String="Tax %"/>
             </Record>
           </Collection>
         </Annotation>

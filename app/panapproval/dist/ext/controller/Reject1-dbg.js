@@ -1,13 +1,16 @@
 sap.ui.define([
     "sap/m/MessageToast"
-], function(MessageToast) {
+], function (MessageToast) {
     'use strict';
-    var oBusyDialog=new sap.m.BusyDialog();
+    var oBusyDialog = new sap.m.BusyDialog();
     var cont = new sap.m.Text({ text: "  Comments are mandatory!" });
-    var errDialog =  new sap.m.Dialog({
-        // type: DialogType.Message,
-        icon:"sap-icon://error",
+    var cont1 = new sap.m.Text({ text: " Are you sure you want to Reject this form ?" });
+    var action = "action";
+    var errDialog = new sap.m.Dialog({
+        type: sap.m.DialogType.Message,
+        // icon:"sap-icon://error",
         title: "Error",
+        state: "Error",
         // state: ValueState.Error,
         content: cont,
         beginButton: new sap.m.Button({
@@ -19,26 +22,69 @@ sap.ui.define([
         })
     });
     return {
-        reject:async function(oEvent) {
+        reject: async function (oEvent) {
+            let pr = new Promise((resolve) => {
+                var confirmDialog = new sap.m.Dialog({
+                    type: sap.m.DialogType.Message,
+                    // icon:"sap-icon://error",
+                    state: "Warning",
+                    title: "Warning",
+                    // state: ValueState.Error,
+                    content: cont1,
+                    beginButton: new sap.m.Button({
+
+                        type: sap.m.ButtonType.Emphasized,
+                        text: "OK",
+                        press: function () {
+                            debugger
+                            action = "action";
+                            confirmDialog.close();
+                            // confirmDialog.destroyContent();
+                            resolve();
+                        }.bind(this)
+                    }),
+                    endButton: new sap.m.Button({
+                        // type: ButtonType.Emphasized,
+                        text: "Close",
+                        press: function () {
+                            debugger
+                            action = null;
+                            confirmDialog.close();
+                            // confirmDialog.destroyContent();
+                            resolve();
+                        }.bind(this)
+                    })
+                });
+                confirmDialog.open();
+            });
+            let pr_res = await pr;
+
+            debugger
+            if (action == null)
+                return "not confirmed";
+
+
+
+
             oBusyDialog.open();
             var oModel = oEvent.getModel();
             var Name = 'getuser';
-					let oFunction = oModel.bindContext(`/${Name}(...)`);
-                    var key = oEvent.sPath.match(/'([^']+)'/)?.[1];
-                    key = {key : key,status : "Rejected" ,urll : window.location.href };
-                    key = JSON.stringify(key);
-                    oFunction.setParameter("ID",key);
-                    await oFunction.execute(); 
-                    let oContext1 = oFunction.getBoundContext();
-						let result1 = oContext1.getObject();
-                            result1 = JSON.parse(result1.value);
+            let oFunction = oModel.bindContext(`/${Name}(...)`);
+            var key = oEvent.sPath.match(/'([^']+)'/)?.[1];
+            key = { key: key, status: "Rejected", urll: window.location.href };
+            key = JSON.stringify(key);
+            oFunction.setParameter("ID", key);
+            await oFunction.execute();
+            let oContext1 = oFunction.getBoundContext();
+            let result1 = oContext1.getObject();
+            result1 = JSON.parse(result1.value);
 
-                            if(result1.status == 'mandt'){
-                                oBusyDialog.close();
-                                errDialog.open();
-                                return "errr";
-                            }
-            
+            if (result1.status == 'mandt') {
+                oBusyDialog.close();
+                errDialog.open();
+                return "errr";
+            }
+
             // await $.ajax({
             //     url: `/odata/v4/pan-approval${oEvent.sPath}`,
             //     method: 'GET',
@@ -48,7 +94,7 @@ sap.ui.define([
             //         response.Sap_workitem_id = result1.workitemId;
             //         if(result1.status == "Rejected")
             //         response.status = result1.status;
-                    
+
             //         if(response.Comments != null){
             //             var p_data = {
             //                 PAN_Number : response.PAN_Number, 
@@ -63,11 +109,11 @@ sap.ui.define([
             //                 data: JSON.stringify(p_data),
             //                 success: function(response) {
             //                     console.log('POST Success:', response);
-                                
+
             //                 },
             //                 error: function(xhr, status, error) {
             //                     console.error('POST Error:', error);
-                                
+
             //                 }
             //             });
             //             // window.history.go(-1);
@@ -83,14 +129,14 @@ sap.ui.define([
             //             data: JSON.stringify(updatee),
             //             success: function(response) {
             //                 console.log('PUT Success:', response);
-                    
+
             //             },
             //             error: function(xhr, status, error) {
             //                 console.error('PUT Error:', error);
-                        
+
             //             }
             //         });
-                    
+
             //     },
             //     error: function(xhr, status, error) {
             //         console.error('1 GET Error:', error);
@@ -99,22 +145,22 @@ sap.ui.define([
             // });
             //
             oBusyDialog.close();
-            if(result1.status == "er")
-            alert("Sorry, we're experiencing technical difficulties. Please try again later.");
-            else{
+            if (result1.status == "er")
+                alert("Sorry, we're experiencing technical difficulties. Please try again later.");
+            else {
                 sap.ui.getCore().byId('panapproval::PAN_Details_APRObjectPage--fe::FooterBar').setEnabled(false);
                 sap.ui.getCore().byId('panapproval::PAN_Details_APRObjectPage--fe::FormContainer::ApprovalComments::FormElement::DataField::Comments::Field-edit').setEnabled(false)
             }
 
             var href_For_Product_display = await sap.ushell.Container.getServiceAsync("Navigation");
-										
-								href_For_Product_display.navigate({
-									target : { semanticObject : "pan_approval", action : "display" }
-								});
 
-          // window.location.href = previousPageUrl;
-          if(result1.status != "er")
-            MessageToast.show("PAN Form has been Rejected.");
+            href_For_Product_display.navigate({
+                target: { semanticObject: "pan_approval", action: "display" }
+            });
+
+            // window.location.href = previousPageUrl;
+            if (result1.status != "er")
+                MessageToast.show("PAN Form has been Rejected.");
         }
     };
 });

@@ -87,7 +87,7 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
 									validated:"NotValidated",
 									values:['Pending for Approval']}];
 
-
+debugger
 								var PAN_Number = JSON.parse(result1.value);
 									 var arr = {PAN_Number:PAN_Number,status:statFilter};
 									 if(arr.PAN_Number.length == 0)
@@ -95,10 +95,12 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
 													operator:"EQ",
 													validated:"NotValidated",
 													values:['']}];
-								await	  this.base.byId("panapproval::PAN_Details_APRList--fe::FilterBar::PAN_Details_APR").setFilterConditions(arr);
+										
+					  			let dfilter = await this.base.byId("panapproval::PAN_Details_APRList--fe::FilterBar::PAN_Details_APR").getFilterConditions();
+								dfilter.PAN_Number = arr.PAN_Number;
+								await	  this.base.byId("panapproval::PAN_Details_APRList--fe::FilterBar::PAN_Details_APR").setFilterConditions(dfilter);
 					//  this.base.getView().getContent()[0].getContent().getContent().mBindingInfos.busy.binding.refresh()
 					 await sap.ui.getCore().byId('panapproval::PAN_Details_APRList--fe::FilterBar::PAN_Details_APR-btnSearch').firePress();
-
 
 
 					//  var frag4 = this.base.getView().getContent()[0]

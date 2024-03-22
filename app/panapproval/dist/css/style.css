@@ -5,9 +5,7 @@ border : solid 0.5px;
 .sapUiTableExt{
     display: none;
 }
-.sapMTableTH{
-    background-color: gainsboro;
-}
+/*  */
 /* plain theme */
 #panapproval\:\:PAN_Details_APRObjectPage--fe\:\:FormContainer\:\:ApprovalComments\:\:FormElement\:\:DataField\:\:Comments{
     width: 300%;
@@ -21,11 +19,7 @@ background-color: #FAD6A5;
     border-radius: 10px;
 } */
 /* lavender theme */
-.sapUiFormCLElement{
-    background-color: aliceblue;
-    margin-bottom: 1%;
-    border-radius: 10px;
-}
+/*  */
 /* plain theme */
 #panapproval\:\:PAN_Details_APRObjectPage--fe\:\:FooterBar\:\:CustomAction\:\:clarification1-inner{
     background-color: orange;
@@ -115,10 +109,7 @@ background-color: #FAD6A5;
     background: #C2BBF0;
 } */
 /* lavender theme */
-.sapUiTableRow.sapUiTableHeaderRow.sapUiTableColHdrTr,
-.sapUiTableCHdr .sapUiTableColHdrCnt{
-    background: gainsboro;
-}
+/*  */
 /* plain theme */
 /* .sapUiTableRow.sapUiTableHeaderRow.sapUiTableColHdrTr,
 .sapUiTableCHdr .sapUiTableColHdrCnt{
@@ -196,5 +187,7 @@ background-color: #FAD6A5;
     z-index: 99999;
     border: 2px solid gray;
     border-radius: 5px;
-    
+    /* box-shadow: cyan ; */
+    filter: drop-shadow(2px 4px 10px rgb(130, 238, 215))
+
   }

@@ -7,15 +7,7 @@ annotate service.PAN_Details_APR with @(
         {
             $Type : 'UI.DataField',
             Value : PAN_Number,
-            Label : 'PAN Number',
-        },{
-            $Type : 'UI.DataField',
-            Value : SBG,
-            Label : 'SBG',
-        },{
-            $Type : 'UI.DataField',
-            Value : SBU,
-            Label : 'SBU',
+            Label : 'NFA Number',
         },{
             $Type : 'UI.DataField',
             Value : BUORPurchasing_Group,
@@ -71,8 +63,8 @@ annotate service.PAN_Details_APR with @(
 );
 annotate service.PAN_Details_APR with @(
     UI.HeaderInfo:{
-        TypeName:'PAN Details',
-        TypeNamePlural:'PAN Details',
+        TypeName:'NFA Details',
+        TypeNamePlural:'NFA Details',
         Title:{
             $Type:'UI.DataField',
             Value:PAN_Number
@@ -92,21 +84,15 @@ annotate service.PAN_Details_APR with @(
         },
                 {
             $Type : 'UI.ReferenceFacet',
-            Label : 'WEB EVENT',
+            Label : 'EVENT HISTORY',
             ID : '_',
             Target : 'tab1totab2/@UI.LineItem#_',
         },
-                {
-                    $Type : 'UI.ReferenceFacet',
-                    Label : 'PAN TYPE',
-                    ID : 'PANTYPE',
-                    Target : 'tab1totab3/@UI.LineItem#PANTYPE',
-                },
                 ],
         },
         {
             $Type : 'UI.ReferenceFacet',
-            Label : 'Vendor Details',
+            Label : 'Vendor Response Details',
             ID : 'VendorData',
             Target : 'tab1tovendor_data/@UI.LineItem#VendorData',
         },
@@ -123,15 +109,7 @@ annotate service.PAN_Details_APR with @(
             {
                 $Type : 'UI.DataField',
                 Value : PAN_Number,
-                Label : 'PAN Number',
-            },{
-                $Type : 'UI.DataField',
-                Value : SBG,
-                Label : 'SBG',
-            },{
-                $Type : 'UI.DataField',
-                Value : SBU,
-                Label : 'SBU',
+                Label : 'NFA Number',
             },{
                 $Type : 'UI.DataField',
                 Value : BUORPurchasing_Group,
@@ -152,10 +130,6 @@ annotate service.PAN_Details_APR with @(
                 $Type : 'UI.DataField',
                 Value : Subject_of_ProposalOROrder,
                 Label : 'Subject of Proposal/Order',
-            },{
-                $Type : 'UI.DataField',
-                Value : Previous_PAN_References,
-                Label : 'Previous PAN References',
             },{
                 $Type : 'UI.DataField',
                 Value : Split_OrderORNo_of_vendors,
@@ -192,14 +166,6 @@ annotate service.PAN_Details_APR with @(
                 $Type : 'UI.DataField',
                 Value : Number_of_Vendors_Shortlisted_for_RFP,
                 Label : 'Number of Vendors Shortlisted for RFP',
-            },{
-                $Type : 'UI.DataField',
-                Value : Number_of_Vendors_Technically_Qualified,
-                Label : 'Number of Vendors Technically Qualified',
-            },{
-                $Type : 'UI.DataField',
-                Value : Required_at_Site_Date,
-                Label : 'Required at Site Date',
             },{
                 $Type : 'UI.DataField',
                 Value : RFP_Number,
@@ -284,11 +250,7 @@ annotate service.PAN_vendor_data_APR with @(
             Value : Rank,
             Label : 'Rank',
         },
-        {
-            $Type : 'UI.DataField',
-            Value : Technically_Approved,
-            Label : 'Technically Approved',
-        },]
+       ]
 );
 annotate service.PAN_attachments_APR with @(
     UI.LineItem #ATTACHMENTSINTERNALTOPANFORAPPROVERS : [
@@ -350,25 +312,19 @@ annotate service.PAN_vendor_data_APR with @(
         },
         {
             $Type : 'UI.ReferenceFacet',
-            Label : 'Terms and Conditions Compared with',
-            ID : 'TermsandConditionsComparedwith',
-            Target : '@UI.FieldGroup#TermsandConditionsComparedwith',
-        },
-        {
-            $Type : 'UI.ReferenceFacet',
             Label : 'Payment Term Details',
             ID : 'PAYMENT_TERM_DETAILS',
             Target : 'vendtoptd/@UI.LineItem#PAYMENT_TERM_DETAILS',
         },
         {
             $Type : 'UI.ReferenceFacet',
-            Label : 'Others Terms And Conditions',
+            Label : 'Terms And Conditions',
             ID : 'OTHERSTERMSANDCONDITIONS',
             Target : '@UI.FieldGroup#OTHERSTERMSANDCONDITIONS',
         },
         {
             $Type : 'UI.ReferenceFacet',
-            Label : 'Price Details',
+            Label : 'Item Details',
             ID : 'PRICEDETAILS',
             Target : 'vendtopd/@UI.LineItem#PRICEDETAILS',
         },
@@ -395,22 +351,6 @@ annotate service.PAN_vendor_data_APR with @(
                 Label : 'Vendor GST Number',
             },{
                 $Type : 'UI.DataField',
-                Value : Vendor_CE_Score,
-                Label : 'Vendor CE Score',
-            },{
-                $Type : 'UI.DataField',
-                Value : Vendor_CE_Date,
-                Label : 'Vendor CE Date',
-            },{
-                $Type : 'UI.DataField',
-                Value : Vendor_PE_Score,
-                Label : 'Vendor PE Score',
-            },{
-                $Type : 'UI.DataField',
-                Value : Vendor_PE_Date,
-                Label : 'Vendor PE Date',
-            },{
-                $Type : 'UI.DataField',
                 Value : Vendor_Contact_PersonDASH1,
                 Label : 'Vendor Contact Person 1',
             },{
@@ -425,10 +365,6 @@ annotate service.PAN_vendor_data_APR with @(
                 $Type : 'UI.DataField',
                 Value : Commercial_Committee_who_cleared_the_proposal,
                 Label : 'Commercial Committee who cleared the proposal',
-            },{
-                $Type : 'UI.DataField',
-                Value : Vendor_References_to_be_displayed_in_Order,
-                Label : 'Vendor References to be displayed in Order',
             },{
                 $Type : 'UI.DataField',
                 Value : Incoterms,
@@ -945,11 +881,7 @@ annotate service.PAN_PRICE_DETAILS_APR with @(
             },{
                 $Type : 'UI.DataField',
                 Value : Indian_Tax_PER,
-                Label : 'Indian Tax %',
-            },{
-                $Type : 'UI.DataField',
-                Value : Quantity_Over_Delivery_Tolerance,
-                Label : 'Quantity Over Delivery Tolerance',
+                Label : 'Tax %',
             },]
 );
 annotate service.PAN_vendor_data_APR with {
@@ -1065,6 +997,17 @@ annotate service.PAN_Details_APR with @(
                             Sign : #I,
                             Option : #EQ,
                             Low : '',
+                        },
+                    ],
+                },
+                {
+                    $Type : 'UI.SelectOptionType',
+                    PropertyName : status,
+                    Ranges : [
+                        {
+                            Sign : #I,
+                            Option : #EQ,
+                            Low : 'Pending for Approval',
                         },
                     ],
                 },

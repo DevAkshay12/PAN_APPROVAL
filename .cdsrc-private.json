@@ -4,9 +4,9 @@
       "db": {
         "binding": {
           "type": "cf",
-          "apiEndpoint": "https://api.cf.eu10-004.hana.ondemand.com",
-          "org": "Tata Projects Limited_btp-dev-0or0hi20",
-          "space": "DEV_SPACE",
+          "apiEndpoint": "https://api.cf.us10-001.hana.ondemand.com",
+          "org": "7c17a314trial",
+          "space": "dev",
           "instance": "main_db2-db",
           "key": "SharedDevKey",
           "resolved": false
